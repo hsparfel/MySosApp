@@ -4,7 +4,6 @@ package com.pouillos.mysosapp.activities;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,13 +23,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import com.pouillos.mysosapp.R;
 
-import com.pouillos.mysosapp.activities.utils.DateUtils;
+import com.pouillos.mysosapp.utils.DateUtils;
 
 
 import java.math.BigDecimal;
@@ -42,7 +40,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import icepick.Icepick;
-import icepick.State;
 
 public class NavDrawerActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     //FOR DESIGN

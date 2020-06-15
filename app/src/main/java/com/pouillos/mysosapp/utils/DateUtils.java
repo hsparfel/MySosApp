@@ -1,4 +1,4 @@
-package com.pouillos.mysosapp.activities.utils;
+package com.pouillos.mysosapp.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
