@@ -1,5 +1,10 @@
 package com.pouillos.mysosapp.enumeration;
 
+import java.security.acl.Group;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public enum GroupeSanguin {
 
     //Objets directement construits
@@ -24,6 +29,17 @@ public enum GroupeSanguin {
 
     public String toString(){
         return name;
+    }
+
+    public List<GroupeSanguin> listAll() {
+        List<GroupeSanguin> listToReturn = new ArrayList<>();
+        List<GroupeSanguin> listGroupeSanguin = Arrays.asList(GroupeSanguin.values());
+        for (GroupeSanguin groupeSanguin : listGroupeSanguin) {
+            if (groupeSanguin != GroupeSanguin.Default) {
+                listToReturn.add(groupeSanguin);
+            }
+        }
+        return listToReturn;
     }
 
 }

@@ -16,6 +16,9 @@ public class LettreMorse {
     private Long id;
 
     @NotNull
+    private String lettreAlphabet;
+
+    @NotNull
     @Convert(converter = SigneMorseConverter.class, columnType = Long.class)
     private SigneMorse premierCaractere;
 
@@ -34,11 +37,12 @@ public class LettreMorse {
     @Convert(converter = SigneMorseConverter.class, columnType = Long.class)
     private SigneMorse sixiemeCaractere;
 
-    @Generated(hash = 29033894)
-    public LettreMorse(Long id, @NotNull SigneMorse premierCaractere, SigneMorse deuxiemeCaractere,
-            SigneMorse troisiemeCaractere, SigneMorse quatriemeCaractere, SigneMorse cinquiemeCaractere,
-            SigneMorse sixiemeCaractere) {
+    @Generated(hash = 420694892)
+    public LettreMorse(Long id, @NotNull String lettreAlphabet, @NotNull SigneMorse premierCaractere,
+            SigneMorse deuxiemeCaractere, SigneMorse troisiemeCaractere, SigneMorse quatriemeCaractere,
+            SigneMorse cinquiemeCaractere, SigneMorse sixiemeCaractere) {
         this.id = id;
+        this.lettreAlphabet = lettreAlphabet;
         this.premierCaractere = premierCaractere;
         this.deuxiemeCaractere = deuxiemeCaractere;
         this.troisiemeCaractere = troisiemeCaractere;
@@ -131,5 +135,13 @@ public class LettreMorse {
 
     public void setSixiemeCaractere(SigneMorse sixiemeCaractere) {
         this.sixiemeCaractere = sixiemeCaractere;
+    }
+
+    public String getLettreAlphabet() {
+        return this.lettreAlphabet;
+    }
+
+    public void setLettreAlphabet(String lettreAlphabet) {
+        this.lettreAlphabet = lettreAlphabet;
     }
 }

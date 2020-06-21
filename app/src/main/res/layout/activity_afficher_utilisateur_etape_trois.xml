@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_creer_utilisateur_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".activities.afficher.AfficherUtilisateurEtapeTroisActivity"
+    tools:openDrawer="start">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textTitre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Etape 3 sur 4" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/listGroupeSanguin"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+
+                android:minWidth="240dip"
+
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/icons8_horreur_24">
+
+                <AutoCompleteTextView
+                    android:id="@+id/selectGroupeSanguin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="Groupe Sanguin"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutInfos"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"
+
+                android:hint="Infos"
+                android:minWidth="250dip"
+                app:errorEnabled="true"
+                app:helperTextEnabled="true"
+                app:helperText="Antécedents, Allergies, Intoléances, ...">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInfos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipDonneurOrgane"
+                style="@style/Widget.MaterialComponents.Chip.Entry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Donneur Organe"
+                app:chipIcon="@drawable/icons8_confiance_24"
+                app:closeIconVisible="false" />
+
+
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabSave"
+                    style="@style/Widget.MaterialComponents.FloatingActionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center"
+
+                    android:layout_margin="16dip"
+
+                    app:backgroundTint="@color/colorPrimary"
+                    app:srcCompat="@drawable/icons8_coche_24"
+                    app:tint="@android:color/white" />
+
+
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

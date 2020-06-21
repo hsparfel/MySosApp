@@ -13,9 +13,9 @@
             android:icon="@drawable/outline_face_black_24dp"
             android:title="@string/text_my_profile" />
         <item
-            android:id="@+id/activity_main_drawer_evolution"
-            android:icon="@drawable/outline_trending_up_black_24dp"
-            android:title="@string/evolution" />
+            android:id="@+id/activity_main_drawer_sms_perso"
+            android:icon="@drawable/icons8_inscription"
+            android:title="Personnaliser Sms" />
         <item
             android:id="@+id/activity_main_drawer_account"
             android:icon="@drawable/id_card_icon_124180"
@@ -67,8 +67,8 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/activity_main_drawer_oldAccueil"
-                    android:title="Ancien Accueil" />
+                    android:id="@+id/activity_main_drawer_raz"
+                    android:title="RAZ" />
 
             </group>
         </menu>

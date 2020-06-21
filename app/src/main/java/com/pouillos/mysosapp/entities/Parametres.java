@@ -39,15 +39,19 @@ public class Parametres {
     private String smsEnlevement;
 
     @NotNull
-    private String smsInformation;
+    private String smsInformationAccident;
 
-    @Generated(hash = 1858052686)
+    @NotNull
+    private String smsInformationEnlevement;
+
+    @Generated(hash = 1651098323)
     public Parametres(Long id, @NotNull String numeroEurope,
             @NotNull String numeroPompier, @NotNull String numeroPolice,
             @NotNull String numeroSamu, @NotNull String numeroAeronautique,
             @NotNull String numeroMer, @NotNull String numeroSourd,
             @NotNull String smsAccident, @NotNull String smsEnlevement,
-            @NotNull String smsInformation) {
+            @NotNull String smsInformationAccident,
+            @NotNull String smsInformationEnlevement) {
         this.id = id;
         this.numeroEurope = numeroEurope;
         this.numeroPompier = numeroPompier;
@@ -58,7 +62,8 @@ public class Parametres {
         this.numeroSourd = numeroSourd;
         this.smsAccident = smsAccident;
         this.smsEnlevement = smsEnlevement;
-        this.smsInformation = smsInformation;
+        this.smsInformationAccident = smsInformationAccident;
+        this.smsInformationEnlevement = smsInformationEnlevement;
     }
 
     @Generated(hash = 1779120727)
@@ -145,11 +150,21 @@ public class Parametres {
         this.smsEnlevement = smsEnlevement;
     }
 
-    public String getSmsInformation() {
-        return this.smsInformation;
+    public String getSmsInformationAccident() {
+        return this.smsInformationAccident;
     }
 
-    public void setSmsInformation(String smsInformation) {
-        this.smsInformation = smsInformation;
+    public void setSmsInformationAccident(String smsInformationAccident) {
+        this.smsInformationAccident = smsInformationAccident;
     }
+
+    public String getSmsInformationEnlevement() {
+        return this.smsInformationEnlevement;
+    }
+
+    public void setSmsInformationEnlevement(String smsInformationEnlevement) {
+        this.smsInformationEnlevement = smsInformationEnlevement;
+    }
+
+    
 }

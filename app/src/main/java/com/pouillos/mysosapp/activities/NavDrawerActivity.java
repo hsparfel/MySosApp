@@ -11,8 +11,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +30,31 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import com.pouillos.mysosapp.R;
 
+import com.pouillos.mysosapp.activities.afficher.AfficherListeContactActivity;
+import com.pouillos.mysosapp.activities.afficher.AfficherSmsPersoActivity;
+import com.pouillos.mysosapp.activities.afficher.AfficherUtilisateurEtapeUnActivity;
+import com.pouillos.mysosapp.dao.ContactDao;
+import com.pouillos.mysosapp.dao.DaoMaster;
+import com.pouillos.mysosapp.dao.DaoSession;
+import com.pouillos.mysosapp.dao.LettreMorseDao;
+import com.pouillos.mysosapp.dao.ParametresDao;
+import com.pouillos.mysosapp.dao.SmsAccidentDao;
+import com.pouillos.mysosapp.dao.SmsEnlevementDao;
+import com.pouillos.mysosapp.dao.TempoMorseDao;
+import com.pouillos.mysosapp.dao.UtilisateurDao;
+import com.pouillos.mysosapp.entities.Contact;
+import com.pouillos.mysosapp.entities.Parametres;
+import com.pouillos.mysosapp.entities.Utilisateur;
+import com.pouillos.mysosapp.fragments.DatePickerFragment;
 import com.pouillos.mysosapp.utils.DateUtils;
 
 
+import org.greenrobot.greendao.database.Database;
+
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,14 +71,33 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;
 
-    //@State
-    //protected Utilisateur activeUser;
+    protected DaoSession daoSession;
+
+    //private DaoSession daoSession;
+    protected UtilisateurDao utilisateurDao;
+    protected LettreMorseDao lettreMorseDao;
+    protected TempoMorseDao tempoMorseDao;
+    protected ContactDao contactDao;
+    protected SmsAccidentDao smsAccidentDao;
+    protected SmsEnlevementDao smsEnlevementDao;
+
+    protected ParametresDao parametresDao;
+
+    protected Utilisateur activeUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //a redefinit à chq fois
         super.onCreate(savedInstanceState);
-
+        //initialiser greenDAO
+        initialiserDao();
+        utilisateurDao = daoSession.getUtilisateurDao();
+        lettreMorseDao = daoSession.getLettreMorseDao();
+        tempoMorseDao = daoSession.getTempoMorseDao();
+        contactDao = daoSession.getContactDao();
+        smsAccidentDao = daoSession.getSmsAccidentDao();
+        smsEnlevementDao = daoSession.getSmsEnlevementDao();
+        parametresDao = daoSession.getParametresDao();
       /*  List<Utilisateur> listUserActif = Utilisateur.find(Utilisateur.class, "actif = ?", "1");
         if (listUserActif.size() != 0) {
             activeUser = listUserActif.get(0);
@@ -85,6 +127,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 
         // 4 - Handle Navigation Item Click
         int id = item.getItemId();
+        Intent myProfilActivity;
 
         switch (id) {
             case R.id.activity_main_drawer_home:
@@ -93,11 +136,15 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             case R.id.activity_main_drawer_profile:
                 Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.activity_main_drawer_evolution:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+            case R.id.activity_main_drawer_sms_perso:
+               // Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherSmsPersoActivity.class);
+                startActivity(myProfilActivity);
                 break;
             case R.id.activity_main_drawer_account:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherUtilisateurEtapeUnActivity.class);
+                startActivity(myProfilActivity);
                 break;
             case R.id.activity_main_drawer_change_account:
                 Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
@@ -115,13 +162,17 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
                 Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
                 break;
             case R.id.activity_main_drawer_contacts:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+                myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeContactActivity.class);
+                startActivity(myProfilActivity);
                 break;
             case R.id.activity_main_drawer_etablissement:
                 Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.activity_main_drawer_oldAccueil:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+            case R.id.activity_main_drawer_raz:
+                //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+                raz();
+                Toast.makeText(this, "RAZ done", Toast.LENGTH_LONG).show();
                 break;
             default:
                 break;
@@ -130,6 +181,10 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         this.drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    protected void raz() {
+        utilisateurDao.deleteAll();
     }
 
     @Override
@@ -269,14 +324,14 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         return dateActualisee;
     }
 
-    /*protected Utilisateur findActiveUser() {
+    protected Utilisateur findActiveUser() {
         Utilisateur user = null;
-        List<Utilisateur> listUserActif = Utilisateur.find(Utilisateur.class, "actif = ?", "1");
-        if (listUserActif.size() !=0){
-            user = listUserActif.get(0);
+        List<Utilisateur> listUtilisateur = utilisateurDao.loadAll();
+        if (listUtilisateur.size() !=0){
+            user = listUtilisateur.get(0);
         }
        return user;
-    }*/
+    }
 
     protected <T> void buildDropdownMenu(List<T> listObj, Context context, AutoCompleteTextView textView) {
         List<String> listString = new ArrayList<>();
@@ -694,5 +749,77 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         }
         Toast.makeText(this, "Alarm deleted", Toast.LENGTH_LONG).show();
     }*/
+
+    public DaoSession getDaoSession() {
+        return daoSession;
+    }
+
+    public void showDatePickerDialog(View v,TextInputEditText textView, boolean hasDateMin, boolean hasDateMax,Date dateMin,Date dateMax) {
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "buttonDate");
+        //Date dateToReturn;
+        newFragment.setOnDateClickListener(new DatePickerFragment.onDateClickListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                if (hasDateMin) {
+                    datePicker.setMinDate(dateMin.getTime());
+                }
+                if (hasDateMax) {
+                    datePicker.setMaxDate(dateMax.getTime());
+                }
+
+                //datePicker.setMaxDate(new Date().getTime());
+                String dateJour = ""+datePicker.getDayOfMonth();
+                String dateMois = ""+(datePicker.getMonth()+1);
+                String dateAnnee = ""+datePicker.getYear();
+                if (datePicker.getDayOfMonth()<10) {
+                    dateJour = "0"+dateJour;
+                }
+                if (datePicker.getMonth()+1<10) {
+                    dateMois = "0"+dateMois;
+                }
+                String dateString = dateJour+"/"+dateMois+"/"+dateAnnee;
+
+                textView.setText(dateString);
+                //DateFormat df = new SimpleDateFormat(getResources().getString(R.string.format_date));
+             //   try{
+
+               //     dateToReturn = df.parse(dateString);
+
+               // }catch(ParseException e){
+               //     System.out.println(getResources().getString(R.string.error));
+                //}
+            }
+        });
+    }
+
+    public Date convertStringToDate(String dateString) {
+        DateFormat df = new SimpleDateFormat(getResources().getString(R.string.format_date));
+        Date dateToReturn = new Date();
+        try{
+                dateToReturn = df.parse(dateString);
+             }catch(ParseException e){
+                 System.out.println(getResources().getString(R.string.error));
+            }
+        return dateToReturn;
+    }
+
+
+
+    public void initialiserDao() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "my_sos_app_db", null);
+        Database db = helper.getWritableDb();
+        DaoMaster daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+    }
+
+    public Parametres recupererParametres() {
+        List<Parametres> listParametres = parametresDao.loadAll();
+        Parametres parametreToReturn = new Parametres();
+        if (listParametres.size()>0) {
+            parametreToReturn = listParametres.get(0);
+        }
+        return parametreToReturn;
+    }
 
 }

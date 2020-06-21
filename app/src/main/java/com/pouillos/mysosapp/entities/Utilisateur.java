@@ -24,27 +24,29 @@ public class Utilisateur {
     @NotNull
     private String prenom;
 
-    @NotNull
+
     private String adresse;
 
-    @NotNull
+
     private String cp;
 
-    @NotNull
+
     private String ville;
 
-    @NotNull
+
     private String telephone;
 
     @NotNull
     private Date dateNaissance;
 
-    @NotNull
+
     @Convert(converter = GroupeSanguinConverter.class, columnType = Long.class)
     private GroupeSanguin groupeSanguin;
 
-    @NotNull
+    
     private boolean isDonneurOrgane;
+
+    private String infos;
 
     
 
@@ -52,11 +54,10 @@ public class Utilisateur {
     public Utilisateur() {
     }
 
-    @Generated(hash = 260647874)
-    public Utilisateur(Long id, @NotNull String nom, @NotNull String prenom, @NotNull String adresse,
-            @NotNull String cp, @NotNull String ville, @NotNull String telephone,
-            @NotNull Date dateNaissance, @NotNull GroupeSanguin groupeSanguin,
-            boolean isDonneurOrgane) {
+    @Generated(hash = 687792878)
+    public Utilisateur(Long id, @NotNull String nom, @NotNull String prenom, String adresse, String cp,
+            String ville, String telephone, @NotNull Date dateNaissance, GroupeSanguin groupeSanguin,
+            boolean isDonneurOrgane, String infos) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -67,6 +68,7 @@ public class Utilisateur {
         this.dateNaissance = dateNaissance;
         this.groupeSanguin = groupeSanguin;
         this.isDonneurOrgane = isDonneurOrgane;
+        this.infos = infos;
     }
 
     public Long getId() {
@@ -147,6 +149,14 @@ public class Utilisateur {
 
     public void setIsDonneurOrgane(boolean isDonneurOrgane) {
         this.isDonneurOrgane = isDonneurOrgane;
+    }
+
+    public String getInfos() {
+        return this.infos;
+    }
+
+    public void setInfos(String infos) {
+        this.infos = infos;
     }
 
     public static class GroupeSanguinConverter implements PropertyConverter<GroupeSanguin, Long> {
