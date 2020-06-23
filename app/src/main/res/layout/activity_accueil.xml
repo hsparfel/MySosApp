@@ -42,6 +42,10 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" />
 
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+
         <LinearLayout
             android:id="@+id/linearLayoutAppelUrgences"
             android:layout_width="match_parent"
@@ -196,20 +200,117 @@
             android:gravity="center_horizontal">
 
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/fabSmsAccident"
+            android:id="@+id/fabSmsAccident"
+            style="@style/Widget.MaterialComponents.FloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginLeft="16dip"
+            android:layout_marginRight="16dip"
+            android:text="Accident"
+            android:textColor="@android:color/white"
+            app:backgroundTint="#0A02BB"
+            app:icon="@drawable/icons8_accident"
+            app:iconTint="@android:color/white" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabSmsEnlevement"
                 style="@style/Widget.MaterialComponents.FloatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
                 android:layout_marginLeft="16dip"
                 android:layout_marginRight="16dip"
-                android:text="Accident"
+                android:text="Enlevement"
                 android:textColor="@android:color/white"
-                app:backgroundTint="#0A02BB"
-                app:icon="@drawable/icons8_accident"
+                app:backgroundTint="#F91203"
+                app:icon="@drawable/icons8_espion"
                 app:iconTint="@android:color/white" />
+
+
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#c0c0c0"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
+            android:gravity="center_horizontal">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutLatitude"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:hint="Latitude"
+                    android:minWidth="170dip"
+                    app:errorEnabled="true"
+                    app:startIconDrawable="@drawable/icons8_latitude">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textLatitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutLongitude"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:hint="Longitude"
+                    android:minWidth="170dip"
+                    app:errorEnabled="true"
+                    app:startIconDrawable="@drawable/icons8_longitude">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textLongitude"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutAddresseGeo"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:hint="Adresse"
+                    android:minWidth="170dip"
+                    app:errorEnabled="true"
+                    app:startIconDrawable="@drawable/outline_place_black_24dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textAddresseGeo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+        </LinearLayout>
 
         <!-- FrameLayout for our fragments -->
     <!-- <FrameLayout

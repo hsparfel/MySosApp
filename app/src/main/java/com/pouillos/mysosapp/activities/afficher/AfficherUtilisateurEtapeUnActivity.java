@@ -130,6 +130,7 @@ public class AfficherUtilisateurEtapeUnActivity extends NavDrawerActivity {
                     utilisateur.setNom(textName.getText().toString());
                     utilisateur.setPrenom(textFirstName.getText().toString());
                     utilisateur.setDateNaissance(dateOfBirth);
+                    utilisateur.setDateNaissanceString(DateUtils.ecrireDate(dateOfBirth));
             if (activeUser != null) {
                 utilisateurDao.update(utilisateur);
             } else {

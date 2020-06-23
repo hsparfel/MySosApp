@@ -39,6 +39,9 @@ public class Utilisateur {
     @NotNull
     private Date dateNaissance;
 
+    @NotNull
+    private String dateNaissanceString;
+
 
     @Convert(converter = GroupeSanguinConverter.class, columnType = Long.class)
     private GroupeSanguin groupeSanguin;
@@ -54,10 +57,11 @@ public class Utilisateur {
     public Utilisateur() {
     }
 
-    @Generated(hash = 687792878)
+    @Generated(hash = 545329074)
     public Utilisateur(Long id, @NotNull String nom, @NotNull String prenom, String adresse, String cp,
-            String ville, String telephone, @NotNull Date dateNaissance, GroupeSanguin groupeSanguin,
-            boolean isDonneurOrgane, String infos) {
+            String ville, String telephone, @NotNull Date dateNaissance,
+            @NotNull String dateNaissanceString, GroupeSanguin groupeSanguin, boolean isDonneurOrgane,
+            String infos) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -66,6 +70,7 @@ public class Utilisateur {
         this.ville = ville;
         this.telephone = telephone;
         this.dateNaissance = dateNaissance;
+        this.dateNaissanceString = dateNaissanceString;
         this.groupeSanguin = groupeSanguin;
         this.isDonneurOrgane = isDonneurOrgane;
         this.infos = infos;
@@ -157,6 +162,14 @@ public class Utilisateur {
 
     public void setInfos(String infos) {
         this.infos = infos;
+    }
+
+    public String getDateNaissanceString() {
+        return this.dateNaissanceString;
+    }
+
+    public void setDateNaissanceString(String dateNaissanceString) {
+        this.dateNaissanceString = dateNaissanceString;
     }
 
     public static class GroupeSanguinConverter implements PropertyConverter<GroupeSanguin, Long> {

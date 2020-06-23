@@ -1,8 +1,19 @@
 package com.pouillos.mysosapp.activities;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -10,11 +21,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.facebook.stetho.Stetho;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.pouillos.mysosapp.R;
 import com.pouillos.mysosapp.activities.afficher.AfficherListeContactActivity;
 import com.pouillos.mysosapp.activities.afficher.AfficherUtilisateurEtapeUnActivity;
+import com.pouillos.mysosapp.dao.ContactDao;
+import com.pouillos.mysosapp.dao.SmsEnlevementDao;
 import com.pouillos.mysosapp.entities.Contact;
 import com.pouillos.mysosapp.entities.LettreMorse;
 import com.pouillos.mysosapp.entities.Parametres;
@@ -26,11 +45,14 @@ import com.pouillos.mysosapp.enumeration.GroupeSanguin;
 import com.pouillos.mysosapp.enumeration.SigneMorse;
 import com.pouillos.mysosapp.utils.DateUtils;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import icepick.Icepick;
 
 public class AccueilActivity extends NavDrawerActivity {
@@ -40,6 +62,26 @@ public class AccueilActivity extends NavDrawerActivity {
 
     @BindView(R.id.my_progressBar)
     ProgressBar progressBar;
+
+    @BindView(R.id.fabAppelNumeroEurope)
+    ExtendedFloatingActionButton fabAppelNumeroEurope;
+    @BindView(R.id.fabAppelNumeroPompier)
+    ExtendedFloatingActionButton fabAppelNumeroPompier;
+    @BindView(R.id.fabAppelNumeroPolice)
+    ExtendedFloatingActionButton fabAppelNumeroPolice;
+    @BindView(R.id.fabAppelNumeroSamu)
+    ExtendedFloatingActionButton fabAppelNumeroSamu;
+    @BindView(R.id.fabAppelNumeroAeronautique)
+    ExtendedFloatingActionButton fabAppelNumeroAeronautique;
+    @BindView(R.id.fabAppelNumeroMer)
+    ExtendedFloatingActionButton fabAppelNumeroMer;
+    @BindView(R.id.fabAppelNumeroSourd)
+    ExtendedFloatingActionButton fabAppelNumeroSourd;
+
+    @BindView(R.id.fabSmsAccident)
+    ExtendedFloatingActionButton fabSmsAccident;
+    @BindView(R.id.fabSmsEnlevement)
+    ExtendedFloatingActionButton fabSmsEnlevement;
 /*
     //private DaoSession daoSession;
     private UtilisateurDao utilisateurDao;
@@ -50,6 +92,26 @@ public class AccueilActivity extends NavDrawerActivity {
     private ContactEnlevementDao contactEnlevementDao;
     private ParametresDao parametresDao;*/
 
+    private LocationManager locationManager;
+   // private LocationListener locationListener;
+    double actualLatitude;
+    double actualLongitude;
+    @BindView(R.id.textLatitude)
+    TextInputEditText textLatitude;
+    @BindView(R.id.layoutLatitude)
+    TextInputLayout layoutLatitude;
+    @BindView(R.id.textLongitude)
+    TextInputEditText textLongitude;
+    @BindView(R.id.layoutLongitude)
+    TextInputLayout layoutLongitude;
+
+    @BindView(R.id.textAddresseGeo)
+    TextInputEditText textAddresseGeo;
+    @BindView(R.id.layoutAddresseGeo)
+    TextInputLayout layoutAddresseGeo;
+
+    private boolean enlevementActif;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,32 +120,240 @@ public class AccueilActivity extends NavDrawerActivity {
         Stetho.initializeWithDefaults(this);
 
 
-
         //todo ajouter verif utilisateur null
 
 
         //if (utilisateurDao.count() !=0) {
-            // 6 - Configure all views
-            this.configureToolBar();
-            this.configureDrawerLayout();
-            this.configureNavigationView();
+        // 6 - Configure all views
+        this.configureToolBar();
+        this.configureDrawerLayout();
+        this.configureNavigationView();
 
-            ButterKnife.bind(this);
+        ButterKnife.bind(this);
+
+        activeUser = findActiveUser();
+        enlevementActif=false;
+        textView.setText(DateUtils.ecrireDateLettre(new Date()));
+
+        progressBar.setVisibility(View.VISIBLE);
+        AccueilActivity.AsyncTaskRunnerBD runnerBD = new AccueilActivity.AsyncTaskRunnerBD();
+        runnerBD.execute();
+
+        //  } else {
+        //     ouvrirActiviteSuivante(AccueilActivity.this, AfficherUtilisateurEtapeUnActivity.class,true);
+        // }
+
+        //faut-il bouler pou actualiser ?
+
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED ) {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (location != null) {
+            actualLatitude = location.getLatitude();
+            actualLongitude = location.getLongitude();
+            textLatitude.setText("" + actualLatitude);
+            textLongitude.setText("" + actualLongitude);
+            convertirCoordonneesToAdresse();
+            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000, 10, new LocationListener() {
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+
+                @Override
+                public void onLocationChanged(Location location) {
+                    Log.d("Location Changes", location.toString());
+                    actualLatitude = location.getLatitude();
+                    actualLongitude = location.getLongitude();
+                    textLatitude.setText("" + actualLatitude);
+                    textLongitude.setText("" + actualLongitude);
+                    convertirCoordonneesToAdresse();
+                    Log.d("GPS", "Latitude " + location.getLatitude() + " et longitude " + location.getLongitude());
+                }
+            });
 
 
 
-            textView.setText(DateUtils.ecrireDateLettre(new Date()));
 
-            progressBar.setVisibility(View.VISIBLE);
-            AccueilActivity.AsyncTaskRunnerBD runnerBD = new AccueilActivity.AsyncTaskRunnerBD();
-            runnerBD.execute();
+        } else {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
-      //  } else {
-       //     ouvrirActiviteSuivante(AccueilActivity.this, AfficherUtilisateurEtapeUnActivity.class,true);
-       // }
+        }
 
+
+
+        ////////////////////////////
+        /*locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.d("Location Changes", location.toString());
+                actualLatitude = location.getLatitude();
+                actualLongitude = location.getLongitude();
+                textLatitude.setText("" + actualLatitude);
+                textLongitude.setText("" + actualLongitude);
+                convertirCoordonneesToAdresse();
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                Log.d("Status Changed", String.valueOf(status));
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+                Log.d("Provider Enabled", provider);
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                Log.d("Provider Disabled", provider);
+            }
+        };*/
+
+     /*   locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }*/
+
+        /*locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                2000,
+                10, locationListener);*/
+        //afficherPosition();
+    }
+
+    //final Looper looper = null;
+
+
+    public void convertirCoordonneesToAdresse() {
+        Geocoder coder = new Geocoder(AccueilActivity.this);
+        try {
+            List<Address> listAddress = coder.getFromLocation(actualLatitude,actualLongitude,1);
+            if (listAddress.size()>0) {
+                //textAddresseGeo.setText(listAddress.get(0).toString());
+                textAddresseGeo.setText(listAddress.get(0).getAddressLine(0));
+            }
+        } catch (IOException e) {
+            textAddresseGeo.setText("Erreur - non trouvé");
+            e.printStackTrace();
+        }
 
     }
+
+
+    /*public void afficherPosition() {
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED ) {
+
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+            LocationProvider provider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+            locationManager.requestSingleUpdate(criteria, locationListener, looper);
+
+            Location localisation = locationManager.getLastKnownLocation(provider.getName());
+            if (localisation != null) {
+                actualLatitude = localisation.getLatitude();
+                actualLongitude = localisation.getLongitude();
+            }
+
+        } else {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+    }*/
+
+
+
+
+    @OnClick(R.id.fabSmsAccident)
+    public void setfabSmsAccidentClick() {
+        List<Contact> listContact = contactDao.queryBuilder()
+                .where(ContactDao.Properties.IsContactAccident.eq(true))
+                .list();
+        String message = "Alerte Accident - "+activeUser.getPrenom()+" "+activeUser.getNom();
+        String newLine = System.getProperty("line.separator");
+        message += newLine;
+        message += recupererParametres().getSmsAccident();
+        message += newLine;
+        message += textAddresseGeo.getText().toString();
+        message += newLine;
+        message += "Lat: "+ textLatitude.getText().toString();
+        message += newLine;
+        message += "Long: "+ textLongitude.getText().toString();
+        message += newLine;
+        message += DateUtils.ecrireDateHeure(new Date());
+
+        for (Contact contact : listContact) {
+            envoyerSms(contact,message);
+        }
+    }
+
+    @OnClick(R.id.fabSmsEnlevement)
+    public void setfabSmsEnlevementClick()  {
+        enlevementActif= !enlevementActif;
+        if (enlevementActif) {
+            //todo le toas ne fct pas no plus à cause de la methode qui ne se termine pas je pense
+            Toast.makeText(this, "activation enlevement", Toast.LENGTH_LONG).show();
+            //todo ça ne marche pas la couleur - ajouter un champ qui indique que c'est actif ou non
+            fabSmsEnlevement.getBackground().mutate().setTint(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        } else {
+            Toast.makeText(this, "desactivation enlevement", Toast.LENGTH_LONG).show();
+            fabSmsEnlevement.getBackground().mutate().setTint(ContextCompat.getColor(this, R.color.colorAccent));
+        }
+        //todo revoir comment l'interrompre proprement - thread à part ?
+        while (enlevementActif) {
+            List<Contact> listContact = contactDao.queryBuilder()
+                    .where(ContactDao.Properties.IsContactEnlevement.eq(true))
+                    .list();
+            String message = "Alerte Enlevement - " + activeUser.getPrenom() + " " + activeUser.getNom();
+            String newLine = System.getProperty("line.separator");
+            message += newLine;
+            message += recupererParametres().getSmsEnlevement();
+            message += newLine;
+            message += textAddresseGeo.getText().toString();
+            message += newLine;
+            message += "Lat: "+ textLatitude.getText().toString();
+            message += newLine;
+            message += "Long: "+ textLongitude.getText().toString();
+            message += newLine;
+            message += DateUtils.ecrireDateHeure(new Date());
+
+            for (Contact contact : listContact) {
+                envoyerSms(contact, message);
+            }
+            try {
+                Thread.sleep(15000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
+
 
     private class AsyncTaskRunnerBD extends AsyncTask<Void, Integer, Void> {
 
@@ -646,7 +916,10 @@ public class AccueilActivity extends NavDrawerActivity {
             utilisateur.setAdresse("15 rue de la paix");
             utilisateur.setCp("75008");
             utilisateur.setVille("PARIS");
-            utilisateur.setDateNaissance(DateUtils.ajouterAnnee(new Date(),-20));
+            Date date = DateUtils.ajouterAnnee(new Date(),-20);
+            utilisateur.setDateNaissance(date);
+            utilisateur.setDateNaissanceString(DateUtils.ecrireDate(date));
+
             utilisateur.setIsDonneurOrgane(true);
             utilisateur.setTelephone("0101010101");
             utilisateur.setGroupeSanguin(GroupeSanguin.ABNegatif);

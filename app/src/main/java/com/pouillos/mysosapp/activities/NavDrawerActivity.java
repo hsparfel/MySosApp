@@ -37,6 +37,7 @@ import com.pouillos.mysosapp.activities.afficher.AfficherUtilisateurEtapeUnActiv
 import com.pouillos.mysosapp.dao.ContactDao;
 import com.pouillos.mysosapp.dao.DaoMaster;
 import com.pouillos.mysosapp.dao.DaoSession;
+import com.pouillos.mysosapp.dao.HistoriqueSmsDao;
 import com.pouillos.mysosapp.dao.LettreMorseDao;
 import com.pouillos.mysosapp.dao.ParametresDao;
 import com.pouillos.mysosapp.dao.SmsAccidentDao;
@@ -44,6 +45,7 @@ import com.pouillos.mysosapp.dao.SmsEnlevementDao;
 import com.pouillos.mysosapp.dao.TempoMorseDao;
 import com.pouillos.mysosapp.dao.UtilisateurDao;
 import com.pouillos.mysosapp.entities.Contact;
+import com.pouillos.mysosapp.entities.HistoriqueSms;
 import com.pouillos.mysosapp.entities.Parametres;
 import com.pouillos.mysosapp.entities.Utilisateur;
 import com.pouillos.mysosapp.fragments.DatePickerFragment;
@@ -83,6 +85,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
     protected SmsEnlevementDao smsEnlevementDao;
 
     protected ParametresDao parametresDao;
+    protected HistoriqueSmsDao historiqueSmsDao;
 
     protected Utilisateur activeUser;
 
@@ -99,6 +102,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         smsAccidentDao = daoSession.getSmsAccidentDao();
         smsEnlevementDao = daoSession.getSmsEnlevementDao();
         parametresDao = daoSession.getParametresDao();
+        historiqueSmsDao = daoSession.getHistoriqueSmsDao();
       /*  List<Utilisateur> listUserActif = Utilisateur.find(Utilisateur.class, "actif = ?", "1");
         if (listUserActif.size() != 0) {
             activeUser = listUserActif.get(0);
@@ -826,10 +830,22 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
     public void envoyerSms(Contact contact,String message) {
         try {
             SmsManager smsManager = SmsManager.getDefault ();
-            smsManager.sendTextMessage (contact.getTelephone(), null, message, null, null);
+            ArrayList<String> parts = smsManager.divideMessage(message);
+            smsManager.sendMultipartTextMessage(contact.getTelephone(), null, parts, null, null);
 
             Toast.makeText(getApplicationContext(), "SMS Sent!",
                     Toast.LENGTH_LONG).show();
+            HistoriqueSms historiqueSms = new HistoriqueSms();
+            historiqueSms.setContactId(contact.getId());
+            historiqueSms.setMessage(message);
+            Date date = new Date();
+            historiqueSms.setDate(date);
+            historiqueSms.setDateString(DateUtils.ecrireDateHeure(date));
+
+            historiqueSmsDao.insert(historiqueSms);
+
+
+
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),
                     "SMS faild, please try again later!",
