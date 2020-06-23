@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.chip.Chip;
@@ -77,6 +78,10 @@ public class AfficherSmsPersoActivity extends NavDrawerActivity implements Adapt
         if (activeUser != null) {
             listeContact = contactDao.loadAll();
             buildDropdownMenu(listeContact, AfficherSmsPersoActivity.this,selectContact);
+            // 6 - Configure all views
+            this.configureToolBar();
+            this.configureDrawerLayout();
+            this.configureNavigationView();
         }
        // traiterIntent();
 
@@ -162,6 +167,9 @@ public class AfficherSmsPersoActivity extends NavDrawerActivity implements Adapt
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         chipEnlevement.setChecked(false);
         chipAccident.setChecked(false);
+        chipEnlevement.setClickable(true);
+        chipAccident.setClickable(true);
+
         boolContactEnlevement=false;
         boolContactAccident=false;
         layoutSms.setVisibility(View.INVISIBLE);
@@ -176,6 +184,8 @@ public class AfficherSmsPersoActivity extends NavDrawerActivity implements Adapt
         if (!contactSelected.getIsContactAccident()){
             chipAccident.setVisibility(View.INVISIBLE);
             chipEnlevement.setChecked(true);
+            chipEnlevement.setClickable(false);
+
             boolContactEnlevement = true;
             textSms.setText(recupererSmsPerso(contactSelected,TypeSms.Enlevement));
             layoutSms.setVisibility(View.VISIBLE);
@@ -184,6 +194,7 @@ public class AfficherSmsPersoActivity extends NavDrawerActivity implements Adapt
         } else if (!contactSelected.getIsContactEnlevement()){
             chipEnlevement.setVisibility(View.INVISIBLE);
             chipAccident.setChecked(true);
+            chipAccident.setClickable(false);
             boolContactAccident = true;
             textSms.setText(recupererSmsPerso(contactSelected,TypeSms.Accident));
             layoutSms.setVisibility(View.VISIBLE);
@@ -240,6 +251,16 @@ public class AfficherSmsPersoActivity extends NavDrawerActivity implements Adapt
             selectContact.setError("Obligatoire");
             bool = false;
         }
+
+        if (textSms.getText() == null || textSms.getText().toString().equalsIgnoreCase("")) {
+            selectContact.setError("Obligatoire");
+            bool = false;
+        }
+        if (!boolContactAccident && !boolContactEnlevement) {
+            Toast.makeText(this, "Selectionner un type d'alerte", Toast.LENGTH_LONG).show();
+            bool = false;
+        }
+
         return bool;
     }
 
@@ -260,6 +281,61 @@ public class AfficherSmsPersoActivity extends NavDrawerActivity implements Adapt
                 ouvrirActiviteSuivante(AfficherSmsPersoActivity.this,AfficherListeContactActivity.class,true);
 
             }*/
+            if (checkboxAppliquerPartout.isChecked()){
+                if (boolContactAccident) {
+                    List<SmsAccident> listSms = smsAccidentDao.loadAll();
+                    for (SmsAccident smsAccident : listSms) {
+                        smsAccident.setMessage(textSms.getText().toString());
+                        smsAccidentDao.update(smsAccident);
+                    }
+                } else if (boolContactEnlevement) {
+                    List<SmsEnlevement> listSms = smsEnlevementDao.loadAll();
+                    for (SmsEnlevement smsEnlevement : listSms) {
+                        smsEnlevement.setMessage(textSms.getText().toString());
+                        smsEnlevementDao.update(smsEnlevement);
+                    }
+                }
+
+
+
+
+
+
+            } else {
+                if (boolContactAccident) {
+                    List<SmsAccident> listSms = smsAccidentDao.queryBuilder()
+                            .where(SmsAccidentDao.Properties.ContactId.eq(contactSelected.getId()))
+                            .list();
+                    SmsAccident smsAccident;
+                    if (listSms.size()>0) {
+                        smsAccident = listSms.get(0);
+                        smsAccident.setMessage(textSms.getText().toString());
+                        smsAccidentDao.update(smsAccident);
+                    } else {
+                        smsAccident = new SmsAccident();
+                        smsAccident.setContactId(contactSelected.getId());
+                        smsAccident.setMessage(textSms.getText().toString());
+                        smsAccidentDao.insert(smsAccident);
+                    }
+                } else if (boolContactEnlevement) {
+                    List<SmsEnlevement> listSms = smsEnlevementDao.queryBuilder()
+                            .where(SmsEnlevementDao.Properties.ContactId.eq(contactSelected.getId()))
+                            .list();
+                    SmsEnlevement smsEnlevement;
+                    if (listSms.size()>0) {
+                        smsEnlevement = listSms.get(0);
+                        smsEnlevement.setMessage(textSms.getText().toString());
+                        smsEnlevementDao.update(smsEnlevement);
+                    } else {
+                        smsEnlevement = new SmsEnlevement();
+                        smsEnlevement.setContactId(contactSelected.getId());
+                        smsEnlevement.setMessage(textSms.getText().toString());
+                        smsEnlevementDao.insert(smsEnlevement);
+                    }
+                }
+            }
+
+            ouvrirActiviteSuivante(AfficherSmsPersoActivity.this,AfficherSmsPersoActivity.class,true);
                   }
     }
 

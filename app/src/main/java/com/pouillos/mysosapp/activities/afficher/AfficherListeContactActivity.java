@@ -60,13 +60,22 @@ public class AfficherListeContactActivity extends NavDrawerActivity implements R
         super.onCreate(savedInstanceState);
         Icepick.restoreInstanceState(this, savedInstanceState);
         setContentView(R.layout.activity_afficher_liste_contact);
-
+        // 6 - Configure all views
+      //  this.configureToolBar();
+       // this.configureDrawerLayout();
+      //  this.configureNavigationView();
         ButterKnife.bind(this);
         activeUser = findActiveUser();
+
        // traiterIntent();
         listContactBD = contactDao.loadAll();
         if (listContactBD.size() == 0) {
             fabSave.hide();
+        } else {
+            // 6 - Configure all views
+            this.configureToolBar();
+            this.configureDrawerLayout();
+            this.configureNavigationView();
         }
 //todo remplir recyclerview
 
@@ -106,9 +115,9 @@ public class AfficherListeContactActivity extends NavDrawerActivity implements R
     @Override
     public void onClickContactButton(int position) {
         Contact contact = adapter.getContact(position);
-        Toast.makeText(AfficherListeContactActivity.this, "a faire ", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(AfficherListeContactActivity.this, "a faire ", Toast.LENGTH_SHORT).show();
         //contact.delete();
-
+        ouvrirActiviteSuivante(AfficherListeContactActivity.this,AfficherContactActivity.class,"contactId",contact.getId(),true);
 
         //listContactBD.remove(position);
         //adapter.notifyItemRemoved(position);

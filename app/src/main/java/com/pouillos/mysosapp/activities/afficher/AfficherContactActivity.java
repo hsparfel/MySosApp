@@ -12,6 +12,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.pouillos.mysosapp.R;
 import com.pouillos.mysosapp.activities.NavDrawerActivity;
 import com.pouillos.mysosapp.entities.Contact;
+import com.pouillos.mysosapp.entities.SmsAccident;
+import com.pouillos.mysosapp.entities.SmsEnlevement;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,9 +56,19 @@ public class AfficherContactActivity extends NavDrawerActivity  {
         super.onCreate(savedInstanceState);
         Icepick.restoreInstanceState(this, savedInstanceState);
         setContentView(R.layout.activity_afficher_contact);
+        // 6 - Configure all views
 
         ButterKnife.bind(this);
         activeUser = findActiveUser();
+        List<Contact> listContact = contactDao.loadAll();
+        if (listContact.size()>0){
+           //  6 - Configure all views
+        this.configureToolBar();
+        this.configureDrawerLayout();
+        this.configureNavigationView();
+        }
+
+
         traiterIntent();
 
 
@@ -72,6 +86,8 @@ public class AfficherContactActivity extends NavDrawerActivity  {
             textName.setText(currentContact.getNom());
             textPhone.setText(currentContact.getTelephone());
             //switchAccident.setChecked(currentContact.i); etc...
+            switchAccident.setChecked(currentContact.getIsContactAccident());
+            switchEnlevement.setChecked(currentContact.getIsContactEnlevement());
         } else {
             currentContact = new Contact();
         }
@@ -85,9 +101,6 @@ public class AfficherContactActivity extends NavDrawerActivity  {
             //currentContact.set(textTown.getText().toString());
             //currentContact.setTelephone(textPhone.getText().toString());
 
-
-
-
             if (switchAccident.isChecked()) {
                 currentContact.setIsContactAccident(true);
             }
@@ -95,6 +108,29 @@ public class AfficherContactActivity extends NavDrawerActivity  {
                 currentContact.setIsContactEnlevement(true);
             }
             contactDao.insert(currentContact);
+
+
+            //enregistrer sms perso/defaut
+            if (currentContact.getIsContactAccident()){
+                SmsAccident smsAccident = new SmsAccident();
+                smsAccident.setContactId(currentContact.getId());
+                smsAccident.setMessage(recupererParametres().getSmsAccident());
+                smsAccidentDao.insert(smsAccident);
+            }
+            if (currentContact.getIsContactEnlevement()){
+                SmsEnlevement smsEnlevement = new SmsEnlevement();
+                smsEnlevement.setContactId(currentContact.getId());
+                smsEnlevement.setMessage(recupererParametres().getSmsEnlevement());
+                smsEnlevementDao.insert(smsEnlevement);
+            }
+
+            if (switchAccident.isChecked()) {
+                envoyerSms(currentContact,recupererParametres().getSmsInformationAccidentDebut());
+            }
+            if (switchEnlevement.isChecked()) {
+                envoyerSms(currentContact,recupererParametres().getSmsInformationEnlevementDebut());
+            }
+
 
             ouvrirActiviteSuivante(AfficherContactActivity.this,AfficherListeContactActivity.class,true);
         }

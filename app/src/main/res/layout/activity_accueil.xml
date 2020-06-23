@@ -42,6 +42,175 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal" />
 
+        <LinearLayout
+            android:id="@+id/linearLayoutAppelUrgences"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabAppelNumeroEurope"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"
+                android:text="Europe"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#1300B3"
+                app:icon="@drawable/icons8_telephone"
+                app:iconTint="@android:color/white" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabAppelNumeroPompier"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"
+                android:text="Pompier"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#FF0007"
+                app:icon="@drawable/icons8_telephone"
+                app:iconTint="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
+            android:gravity="center_horizontal">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabAppelNumeroPolice"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:text="Police"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#2638E8"
+                app:icon="@drawable/icons8_telephone"
+                app:iconTint="@android:color/white"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"/>
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabAppelNumeroSamu"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"
+                android:text="Samu"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#0C9BF0"
+                app:icon="@drawable/icons8_telephone"
+                app:iconTint="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
+            android:gravity="center_horizontal">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabAppelNumeroAeronautique"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"
+                android:text="Avion"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#9CA520"
+                app:icon="@drawable/icons8_telephone"
+                app:iconTint="@android:color/white" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabAppelNumeroMer"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"
+                android:text="Mer"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#07AC19"
+                app:icon="@drawable/icons8_telephone"
+                app:iconTint="@android:color/white" />
+
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:gravity="center_horizontal">
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabAppelNumeroSourd"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"
+                android:text="Sourd"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#E98806"
+                app:icon="@drawable/icons8_telephone"
+                app:iconTint="@android:color/white" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#c0c0c0"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
+            android:gravity="center_horizontal">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/fabSmsAccident"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginLeft="16dip"
+                android:layout_marginRight="16dip"
+                android:text="Accident"
+                android:textColor="@android:color/white"
+                app:backgroundTint="#0A02BB"
+                app:icon="@drawable/icons8_accident"
+                app:iconTint="@android:color/white" />
+        </LinearLayout>
+
+
         <!-- FrameLayout for our fragments -->
     <!-- <FrameLayout
         android:id="@+id/activity_main_frame_layout"

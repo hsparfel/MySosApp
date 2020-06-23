@@ -29,7 +29,7 @@ android {
 }
 
 greendao {
-    schemaVersion 5
+    schemaVersion 8
     daoPackage "com.pouillos.mysosapp.dao" // set package of generated classes
 }
 

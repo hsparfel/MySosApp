@@ -50,14 +50,22 @@ public class AfficherUtilisateurEtapeDeuxActivity extends NavDrawerActivity {
         Icepick.restoreInstanceState(this, savedInstanceState);
         setContentView(R.layout.activity_afficher_utilisateur_etape_deux);
 
-
+// 6 - Configure all views
+     //   this.configureToolBar();
+     //   this.configureDrawerLayout();
+     //   this.configureNavigationView();
         ButterKnife.bind(this);
         activeUser = findActiveUser();
-        if (activeUser != null) {
+        if (activeUser != null && activeUser.getAdresse()!= null && activeUser.getCp()!= null && activeUser.getVille()!= null && activeUser.getTelephone()!= null) {
             textAddress.setText(activeUser.getAdresse());
             textZip.setText(activeUser.getCp());
             textTown.setText(activeUser.getVille());
             textPhone.setText(activeUser.getTelephone());
+
+            // 6 - Configure all views
+            this.configureToolBar();
+            this.configureDrawerLayout();
+            this.configureNavigationView();
         }
 
        // traiterIntent();

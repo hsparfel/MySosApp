@@ -51,13 +51,20 @@ public class AfficherUtilisateurEtapeUnActivity extends NavDrawerActivity {
         setContentView(R.layout.activity_afficher_utilisateur_etape_un);
 
       //  utilisateurDao = daoSession.getUtilisateurDao();
+// 6 - Configure all views
+     //   this.configureToolBar();
+     //   this.configureDrawerLayout();
+     //   this.configureNavigationView();
 
         ButterKnife.bind(this);
 
         activeUser = findActiveUser();
         if (activeUser != null) {
 
-
+// 6 - Configure all views
+            this.configureToolBar();
+          this.configureDrawerLayout();
+            this.configureNavigationView();
 
 
 

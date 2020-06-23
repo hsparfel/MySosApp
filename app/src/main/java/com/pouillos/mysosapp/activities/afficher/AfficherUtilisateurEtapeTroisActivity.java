@@ -63,14 +63,22 @@ public class AfficherUtilisateurEtapeTroisActivity extends NavDrawerActivity imp
         Icepick.restoreInstanceState(this, savedInstanceState);
         setContentView(R.layout.activity_afficher_utilisateur_etape_trois);
 
-
+// 6 - Configure all views
+      //  this.configureToolBar();
+      //  this.configureDrawerLayout();
+      //  this.configureNavigationView();
         ButterKnife.bind(this);
         activeUser = findActiveUser();
-        if (activeUser != null) {
+        if (activeUser != null && activeUser.getInfos() != null && activeUser.getGroupeSanguin() != null) {
             textInfos.setText(activeUser.getInfos());
             chipDonneurOrgane.setChecked(activeUser.getIsDonneurOrgane());
             selectGroupeSanguin.setText(activeUser.getGroupeSanguin().name);
             groupeSanguinSelected = activeUser.getGroupeSanguin();
+
+            // 6 - Configure all views
+            this.configureToolBar();
+            this.configureDrawerLayout();
+            this.configureNavigationView();
         }
        // traiterIntent();
 

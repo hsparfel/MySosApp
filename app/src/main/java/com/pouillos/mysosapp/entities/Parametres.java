@@ -39,19 +39,27 @@ public class Parametres {
     private String smsEnlevement;
 
     @NotNull
-    private String smsInformationAccident;
+    private String smsInformationAccidentDebut;
 
     @NotNull
-    private String smsInformationEnlevement;
+    private String smsInformationEnlevementDebut;
 
-    @Generated(hash = 1651098323)
+    @NotNull
+    private String smsInformationAccidentFin;
+
+    @NotNull
+    private String smsInformationEnlevementFin;
+
+    @Generated(hash = 880007602)
     public Parametres(Long id, @NotNull String numeroEurope,
             @NotNull String numeroPompier, @NotNull String numeroPolice,
             @NotNull String numeroSamu, @NotNull String numeroAeronautique,
             @NotNull String numeroMer, @NotNull String numeroSourd,
             @NotNull String smsAccident, @NotNull String smsEnlevement,
-            @NotNull String smsInformationAccident,
-            @NotNull String smsInformationEnlevement) {
+            @NotNull String smsInformationAccidentDebut,
+            @NotNull String smsInformationEnlevementDebut,
+            @NotNull String smsInformationAccidentFin,
+            @NotNull String smsInformationEnlevementFin) {
         this.id = id;
         this.numeroEurope = numeroEurope;
         this.numeroPompier = numeroPompier;
@@ -62,8 +70,10 @@ public class Parametres {
         this.numeroSourd = numeroSourd;
         this.smsAccident = smsAccident;
         this.smsEnlevement = smsEnlevement;
-        this.smsInformationAccident = smsInformationAccident;
-        this.smsInformationEnlevement = smsInformationEnlevement;
+        this.smsInformationAccidentDebut = smsInformationAccidentDebut;
+        this.smsInformationEnlevementDebut = smsInformationEnlevementDebut;
+        this.smsInformationAccidentFin = smsInformationAccidentFin;
+        this.smsInformationEnlevementFin = smsInformationEnlevementFin;
     }
 
     @Generated(hash = 1779120727)
@@ -150,21 +160,40 @@ public class Parametres {
         this.smsEnlevement = smsEnlevement;
     }
 
-    public String getSmsInformationAccident() {
-        return this.smsInformationAccident;
+    public String getSmsInformationAccidentDebut() {
+        return this.smsInformationAccidentDebut;
     }
 
-    public void setSmsInformationAccident(String smsInformationAccident) {
-        this.smsInformationAccident = smsInformationAccident;
+    public void setSmsInformationAccidentDebut(String smsInformationAccidentDebut) {
+        this.smsInformationAccidentDebut = smsInformationAccidentDebut;
     }
 
-    public String getSmsInformationEnlevement() {
-        return this.smsInformationEnlevement;
+    public String getSmsInformationEnlevementDebut() {
+        return this.smsInformationEnlevementDebut;
     }
 
-    public void setSmsInformationEnlevement(String smsInformationEnlevement) {
-        this.smsInformationEnlevement = smsInformationEnlevement;
+    public void setSmsInformationEnlevementDebut(
+            String smsInformationEnlevementDebut) {
+        this.smsInformationEnlevementDebut = smsInformationEnlevementDebut;
     }
+
+    public String getSmsInformationAccidentFin() {
+        return this.smsInformationAccidentFin;
+    }
+
+    public void setSmsInformationAccidentFin(String smsInformationAccidentFin) {
+        this.smsInformationAccidentFin = smsInformationAccidentFin;
+    }
+
+    public String getSmsInformationEnlevementFin() {
+        return this.smsInformationEnlevementFin;
+    }
+
+    public void setSmsInformationEnlevementFin(String smsInformationEnlevementFin) {
+        this.smsInformationEnlevementFin = smsInformationEnlevementFin;
+    }
+
+
 
     
 }

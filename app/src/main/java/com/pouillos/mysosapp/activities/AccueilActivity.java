@@ -18,6 +18,8 @@ import com.pouillos.mysosapp.activities.afficher.AfficherUtilisateurEtapeUnActiv
 import com.pouillos.mysosapp.entities.Contact;
 import com.pouillos.mysosapp.entities.LettreMorse;
 import com.pouillos.mysosapp.entities.Parametres;
+import com.pouillos.mysosapp.entities.SmsAccident;
+import com.pouillos.mysosapp.entities.SmsEnlevement;
 import com.pouillos.mysosapp.entities.TempoMorse;
 import com.pouillos.mysosapp.entities.Utilisateur;
 import com.pouillos.mysosapp.enumeration.GroupeSanguin;
@@ -133,10 +135,12 @@ public class AccueilActivity extends NavDrawerActivity {
             parametres.setNumeroAeronautique("0603506694");
             parametres.setNumeroMer("0603506694");
             parametres.setNumeroSourd("0603506694");
-            parametres.setSmsAccident("sms accident - qui: {1} - quand: {2} - où: {3}");
-            parametres.setSmsEnlevement("sms enlevement - qui: {1} - quand: {2} - où: {3}");
-            parametres.setSmsInformationAccident("sms information accident - qui: {1}");
-            parametres.setSmsInformationEnlevement("sms information enlevement - qui: {1}");
+            parametres.setSmsAccident("sms accident");
+            parametres.setSmsEnlevement("sms enlevement");
+            parametres.setSmsInformationAccidentDebut("sms information accident debut");
+            parametres.setSmsInformationEnlevementDebut("sms information enlevement debut");
+            parametres.setSmsInformationAccidentFin("sms information accident fin");
+            parametres.setSmsInformationEnlevementFin("sms information enlevement fin");
             parametresDao.insert(parametres);
 
         }
@@ -575,10 +579,37 @@ public class AccueilActivity extends NavDrawerActivity {
         //todo
         remplirBDUtilisateur();
         remplirBDContact();
+        remplirBDSmsAccident();
+        remplirBDSmsEnlevement();
 
     }
 
-
+    private void remplirBDSmsAccident() {
+        if (smsAccidentDao.count() == 0) {
+            List<Contact> listContact = contactDao.loadAll();
+            for (Contact contact : listContact) {
+                if (contact.getIsContactAccident()) {
+                    SmsAccident smsAccident = new SmsAccident();
+                    smsAccident.setMessage(recupererParametres().getSmsAccident());
+                    smsAccident.setContactId(contact.getId());
+                    smsAccidentDao.insert(smsAccident);
+                }
+            }
+        }
+    }
+    private void remplirBDSmsEnlevement() {
+        if (smsEnlevementDao.count() == 0) {
+            List<Contact> listContact = contactDao.loadAll();
+            for (Contact contact : listContact) {
+                if (contact.getIsContactEnlevement()) {
+                    SmsEnlevement smsEnlevement = new SmsEnlevement();
+                    smsEnlevement.setMessage(recupererParametres().getSmsEnlevement());
+                    smsEnlevement.setContactId(contact.getId());
+                    smsEnlevementDao.insert(smsEnlevement);
+                }
+            }
+        }
+    }
 
 
 
