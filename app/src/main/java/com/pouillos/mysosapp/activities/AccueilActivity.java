@@ -59,6 +59,8 @@ public class AccueilActivity extends NavDrawerActivity {
 
     @BindView(R.id.textView)
     TextView textView;
+    @BindView(R.id.textEnlevement)
+    TextView textEnlevement;
 
     @BindView(R.id.my_progressBar)
     ProgressBar progressBar;
@@ -314,11 +316,13 @@ public class AccueilActivity extends NavDrawerActivity {
     public void setfabSmsEnlevementClick()  {
         enlevementActif= !enlevementActif;
         if (enlevementActif) {
+            textEnlevement.setText("Alerte en cours");
             //todo le toas ne fct pas no plus à cause de la methode qui ne se termine pas je pense
             Toast.makeText(this, "activation enlevement", Toast.LENGTH_LONG).show();
             //todo ça ne marche pas la couleur - ajouter un champ qui indique que c'est actif ou non
             fabSmsEnlevement.getBackground().mutate().setTint(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         } else {
+            textEnlevement.setText("Alerte stoppée");
             Toast.makeText(this, "desactivation enlevement", Toast.LENGTH_LONG).show();
             fabSmsEnlevement.getBackground().mutate().setTint(ContextCompat.getColor(this, R.color.colorAccent));
         }

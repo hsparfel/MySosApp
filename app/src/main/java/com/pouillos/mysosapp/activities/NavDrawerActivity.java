@@ -31,6 +31,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import com.pouillos.mysosapp.R;
 
+import com.pouillos.mysosapp.activities.action.LampeActivity;
 import com.pouillos.mysosapp.activities.afficher.AfficherListeContactActivity;
 import com.pouillos.mysosapp.activities.afficher.AfficherSmsPersoActivity;
 import com.pouillos.mysosapp.activities.afficher.AfficherUtilisateurEtapeUnActivity;
@@ -138,8 +139,9 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             case R.id.activity_main_drawer_home:
                 ouvrirActiviteSuivante(NavDrawerActivity.this, AccueilActivity.class,true);
                 break;
-            case R.id.activity_main_drawer_profile:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+            case R.id.activity_main_drawer_lampe:
+                //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+                ouvrirActiviteSuivante(NavDrawerActivity.this, LampeActivity.class,true);
                 break;
             case R.id.activity_main_drawer_sms_perso:
                // Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();

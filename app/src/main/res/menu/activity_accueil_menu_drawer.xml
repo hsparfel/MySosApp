@@ -9,17 +9,24 @@
             android:icon="@drawable/outline_home_black_24dp"
             android:title="@string/home" />
         <item
-            android:id="@+id/activity_main_drawer_profile"
+            android:id="@+id/activity_main_drawer_account"
             android:icon="@drawable/outline_face_black_24dp"
-            android:title="@string/text_my_profile" />
+            android:title="@string/text_my_account" />
+        <item
+            android:id="@+id/activity_main_drawer_contacts"
+            android:icon="@drawable/book_contact"
+            android:title="@string/text_my_contacts" />
         <item
             android:id="@+id/activity_main_drawer_sms_perso"
             android:icon="@drawable/icons8_inscription"
             android:title="Personnaliser Sms" />
+
         <item
-            android:id="@+id/activity_main_drawer_account"
-            android:icon="@drawable/id_card_icon_124180"
-            android:title="@string/text_my_account" />
+            android:id="@+id/activity_main_drawer_lampe"
+            android:icon="@drawable/icons8_idee"
+            android:title="Lampe" />
+
+
         <item
             android:id="@+id/activity_main_drawer_change_account"
             android:icon="@drawable/account_convert"
@@ -30,10 +37,7 @@
 
         <menu>
             <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/activity_main_drawer_contacts"
-                    android:icon="@drawable/book_contact"
-                    android:title="@string/text_my_contacts" />
+
                 <item
                     android:id="@+id/activity_main_drawer_ordonnances"
                     android:icon="@drawable/prescription"
