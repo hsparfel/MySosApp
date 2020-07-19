@@ -26,7 +26,6 @@
             app:theme="@style/ToolBarStyle"/>
 
         <TextView
-            android:id="@+id/textTitre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -75,7 +74,7 @@
                 android:layout_margin="50dip"
 
                 app:backgroundTint="@color/colorPrimary"
-                app:srcCompat="@drawable/icons8_coche_24"
+                app:srcCompat="@drawable/outline_home_black_24dp"
                 app:tint="@android:color/white" />
 
 

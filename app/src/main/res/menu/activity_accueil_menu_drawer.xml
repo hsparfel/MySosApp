@@ -27,10 +27,6 @@
             android:title="Lampe" />
 
 
-        <item
-            android:id="@+id/activity_main_drawer_change_account"
-            android:icon="@drawable/account_convert"
-            android:title="@string/text_change_account" />
     </group>
 
     <item android:title="@string/text_my_datas">
@@ -39,29 +35,14 @@
             <group android:checkableBehavior="single">
 
                 <item
-                    android:id="@+id/activity_main_drawer_ordonnances"
-                    android:icon="@drawable/prescription"
-                    android:title="Mes Ordonnances" />
+                    android:id="@+id/activity_main_drawer_morse"
+                    android:icon="@drawable/icons8_morse"
+                    android:title="Morse" />
                 <!-- <item
                     android:id="@+id/activity_main_drawer_treatments"
                     android:icon="@drawable/medicine_medical_pharmacy_health_prescription_pill_drug_icon_140910"
                     android:title="@string/text_my_treatments" /> -->
-                <item
-                android:id="@+id/activity_main_drawer_contact_appointments"
-                android:icon="@drawable/bookeddatecalendarmarkcrosssave_109769"
-                android:title="@string/text_my_appointments" />
-                <item
-                    android:id="@+id/activity_main_drawer_analysis_appointments"
-                    android:icon="@drawable/syringe_vaccine_icon_127255"
-                    android:title="@string/my_analysis" />
-                <item
-                    android:id="@+id/activity_main_drawer_exam_appointments"
-                    android:icon="@drawable/heart"
-                    android:title="@string/my_exams" />
-                <item
-                    android:id="@+id/activity_main_drawer_etablissement"
-                    android:icon="@drawable/big_hospital"
-                    android:title="Mes Etablissements" />
+
 
             </group>
         </menu>

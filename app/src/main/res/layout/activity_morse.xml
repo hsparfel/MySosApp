@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.afficher.AfficherUtilisateurEtapeTroisActivity"
+    tools:context=".activities.afficher.AfficherUtilisateurEtapeUnActivity"
     tools:openDrawer="start">
 
     <LinearLayout
@@ -25,11 +25,22 @@
             android:background="?attr/colorPrimary"
             app:theme="@style/ToolBarStyle"/>
 
+        <ProgressBar
+            android:id="@+id/my_progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="false"
+            android:visibility="gone"
+            android:max="100"
+            android:progress="0"
+            />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Etape 3 sur 4" />
+            android:text="Message Morse" />
 
 
         <LinearLayout
@@ -41,79 +52,49 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />
 
-
-
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/listGroupeSanguin"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabSos"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="bottom|center"
 
-                android:minWidth="240dip"
+                android:layout_margin="16dip"
 
-                app:errorEnabled="true"
-                app:startIconDrawable="@drawable/icons8_horreur_24">
-
-                <AutoCompleteTextView
-                    android:id="@+id/selectGroupeSanguin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:hint="Groupe Sanguin"
-                    android:inputType="none" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                app:backgroundTint="@color/colorPrimary"
+                app:srcCompat="@drawable/icons8_sos"
+                app:tint="@android:color/white" />
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutInfos"
+                android:id="@+id/layoutMessage"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="16dip"
-                android:layout_marginRight="16dip"
-
-                android:hint="Infos"
+                android:hint="Message"
                 android:minWidth="250dip"
                 app:errorEnabled="true"
-                app:helperTextEnabled="true"
-                app:helperText="Antécedents, Allergies, Intoléances, ...">
+                app:startIconDrawable="@drawable/icons8_inscription">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInfos"
+                    android:id="@+id/textMessage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipDonneurOrgane"
-                style="@style/Widget.MaterialComponents.Chip.Entry"
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabMessage"
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Donneur Organe"
-                app:chipIcon="@drawable/icons8_confiance_24"
-                app:closeIconVisible="false" />
+                android:layout_gravity="bottom|center"
 
+                android:layout_margin="16dip"
 
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fabSave"
-                    style="@style/Widget.MaterialComponents.FloatingActionButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center"
-
-                    android:layout_margin="16dip"
-
-                    app:backgroundTint="@color/colorPrimary"
-                    app:srcCompat="@drawable/icons8_coche_24"
-                    app:tint="@android:color/white" />
-
+                app:backgroundTint="@color/colorPrimary"
+                app:srcCompat="@drawable/icons8_lumiere"
+                app:tint="@android:color/white" />
 
 
 

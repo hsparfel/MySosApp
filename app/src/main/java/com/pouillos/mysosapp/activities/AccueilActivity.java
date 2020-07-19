@@ -422,11 +422,11 @@ public class AccueilActivity extends NavDrawerActivity {
 
     private void remplirBDTempoMorse() {
         if (tempoMorseDao.count() == 0) {
-            long duree = 120; //en milliseconde verifier
+            long duree = 220; //en milliseconde verifier
             TempoMorse tempoMorse = new TempoMorse();
             tempoMorse.setPoint(duree);
             tempoMorse.setTiret(duree*3);
-            tempoMorse.setIntervalSigne(duree);
+            tempoMorse.setIntervalSigne(duree*2);
             tempoMorse.setIntervalLettre(duree*3);
             tempoMorse.setIntervalMot(duree*7);
             tempoMorseDao.insert(tempoMorse);

@@ -38,6 +38,8 @@
 
         <activity android:name=".activities.action.LampeActivity"
             android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".activities.action.MorseActivity"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>

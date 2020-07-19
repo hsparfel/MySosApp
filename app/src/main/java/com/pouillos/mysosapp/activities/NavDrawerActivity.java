@@ -32,6 +32,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.pouillos.mysosapp.R;
 
 import com.pouillos.mysosapp.activities.action.LampeActivity;
+import com.pouillos.mysosapp.activities.action.MorseActivity;
 import com.pouillos.mysosapp.activities.afficher.AfficherListeContactActivity;
 import com.pouillos.mysosapp.activities.afficher.AfficherSmsPersoActivity;
 import com.pouillos.mysosapp.activities.afficher.AfficherUtilisateurEtapeUnActivity;
@@ -47,7 +48,9 @@ import com.pouillos.mysosapp.dao.TempoMorseDao;
 import com.pouillos.mysosapp.dao.UtilisateurDao;
 import com.pouillos.mysosapp.entities.Contact;
 import com.pouillos.mysosapp.entities.HistoriqueSms;
+import com.pouillos.mysosapp.entities.LettreMorse;
 import com.pouillos.mysosapp.entities.Parametres;
+import com.pouillos.mysosapp.entities.TempoMorse;
 import com.pouillos.mysosapp.entities.Utilisateur;
 import com.pouillos.mysosapp.fragments.DatePickerFragment;
 import com.pouillos.mysosapp.utils.DateUtils;
@@ -153,29 +156,18 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
                 myProfilActivity = new Intent(NavDrawerActivity.this, AfficherUtilisateurEtapeUnActivity.class);
                 startActivity(myProfilActivity);
                 break;
-            case R.id.activity_main_drawer_change_account:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+
+            case R.id.activity_main_drawer_morse:
+                myProfilActivity = new Intent(NavDrawerActivity.this, MorseActivity.class);
+                startActivity(myProfilActivity);
                 break;
-            case R.id.activity_main_drawer_ordonnances:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.activity_main_drawer_contact_appointments:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.activity_main_drawer_analysis_appointments:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.activity_main_drawer_exam_appointments:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                break;
+
             case R.id.activity_main_drawer_contacts:
                 //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
                 myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeContactActivity.class);
                 startActivity(myProfilActivity);
                 break;
-            case R.id.activity_main_drawer_etablissement:
-                Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
-                break;
+
             case R.id.activity_main_drawer_raz:
                 //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
                 raz();
@@ -191,7 +183,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
     }
 
     protected void raz() {
-        utilisateurDao.deleteAll();
+        tempoMorseDao.deleteAll();
     }
 
     @Override
@@ -208,46 +200,11 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
               //  myProfilActivity = new Intent(NavDrawerActivity.this, ChercherContactActivity.class);
                // startActivity(myProfilActivity);
                 return true;
-            case R.id.addAnalyse:
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, AddAnalyseActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
-            case R.id.addExamen:
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, AddExamenActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
-            case R.id.listAllAnalyse:
-             //   myProfilActivity = new Intent(NavDrawerActivity.this, AfficherAnalyseActivity.class);
-             //   startActivity(myProfilActivity);
-                return true;
-            case R.id.listAllExamen:
-             //   myProfilActivity = new Intent(NavDrawerActivity.this, AfficherExamenActivity.class);
-             //   startActivity(myProfilActivity);
-                return true;
-            case R.id.listMyProfil:
-             //   myProfilActivity = new Intent(NavDrawerActivity.this, AfficherProfilActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
-            case R.id.takePicture:
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, MakePhotoActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
-            case R.id.pickPicture:
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, AfficherPhotoActivity.class);
-               // startActivity(myProfilActivity);
-                return true;
-            case R.id.importContact:
-             //   myProfilActivity = new Intent(NavDrawerActivity.this, ImportContactActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
-            case R.id.importEtablissement:
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, ImportEtablissementActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
-            case R.id.importMedicament:
-              //  myProfilActivity = new Intent(NavDrawerActivity.this, ImportMedicamentActivity.class);
-              //  startActivity(myProfilActivity);
-                return true;
+
+
+
+
+
             case R.id.rchEtablissement:
              //   myProfilActivity = new Intent(NavDrawerActivity.this, ChercherEtablissementActivity.class);
               //  startActivity(myProfilActivity);
@@ -828,6 +785,17 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         }
         return parametreToReturn;
     }
+
+    public TempoMorse recupererTempoMorse() {
+        List<TempoMorse> listTempoMorse = tempoMorseDao.loadAll();
+        TempoMorse tempoMorseToReturn = new TempoMorse();
+        if (listTempoMorse.size()>0) {
+            tempoMorseToReturn = listTempoMorse.get(0);
+        }
+        return tempoMorseToReturn;
+    }
+
+
 
     public void envoyerSms(Contact contact,String message) {
         try {
