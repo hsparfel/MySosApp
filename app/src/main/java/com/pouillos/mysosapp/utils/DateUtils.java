@@ -92,6 +92,13 @@ public class DateUtils {
         return dateMaj;
     }
 
+    public static String ecrireHeureChrono(Date date) {
+        String pattern = "mm:ss";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String dateMaj = simpleDateFormat.format(date);
+        return dateMaj;
+    }
+
     public static String ecrireDateHeure(Date date) {
         String pattern = "dd/MM/yyyy HH:mm";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
@@ -138,6 +145,7 @@ public class DateUtils {
         calendar.add(Calendar.DAY_OF_WEEK,nbJours);
         calendar.set(Calendar.HOUR_OF_DAY, heure);
         calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
         Date dateCalculee = calendar.getTime();
         return dateCalculee;
     }

@@ -162,27 +162,27 @@
                 app:iconTint="@android:color/white" />
 
         </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dip"
-                android:layout_marginBottom="10dip"
-                android:gravity="center_horizontal">
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/fabAppelNumeroSourd"
-                style="@style/Widget.MaterialComponents.FloatingActionButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:layout_marginLeft="16dip"
-                android:layout_marginRight="16dip"
-                android:text="Sourd"
-                android:textColor="@android:color/white"
-                app:backgroundTint="#E98806"
-                app:icon="@drawable/icons8_telephone"
-                app:iconTint="@android:color/white" />
-        </LinearLayout>
+            <!--     <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal"
+                     android:layout_marginTop="10dip"
+                     android:layout_marginBottom="10dip"
+                     android:gravity="center_horizontal">
+                 <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                     android:id="@+id/fabAppelNumeroSourd"
+                     style="@style/Widget.MaterialComponents.FloatingActionButton"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="bottom|center"
+                     android:layout_marginLeft="16dip"
+                     android:layout_marginRight="16dip"
+                     android:text="Sourd"
+                     android:textColor="@android:color/white"
+                     app:backgroundTint="#E98806"
+                     app:icon="@drawable/icons8_telephone"
+                     app:iconTint="@android:color/white" />
+             </LinearLayout> -->
 
         <View
             android:layout_width="match_parent"

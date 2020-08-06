@@ -3,9 +3,11 @@ package com.pouillos.mysosapp.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
@@ -31,6 +33,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import com.pouillos.mysosapp.R;
 
+import com.pouillos.mysosapp.activities.action.ChronoCardiaqueActivity;
 import com.pouillos.mysosapp.activities.action.LampeActivity;
 import com.pouillos.mysosapp.activities.action.MorseActivity;
 import com.pouillos.mysosapp.activities.afficher.AfficherListeContactActivity;
@@ -39,6 +42,7 @@ import com.pouillos.mysosapp.activities.afficher.AfficherUtilisateurEtapeUnActiv
 import com.pouillos.mysosapp.dao.ContactDao;
 import com.pouillos.mysosapp.dao.DaoMaster;
 import com.pouillos.mysosapp.dao.DaoSession;
+import com.pouillos.mysosapp.dao.HistoriqueAppelDao;
 import com.pouillos.mysosapp.dao.HistoriqueSmsDao;
 import com.pouillos.mysosapp.dao.LettreMorseDao;
 import com.pouillos.mysosapp.dao.ParametresDao;
@@ -90,6 +94,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
 
     protected ParametresDao parametresDao;
     protected HistoriqueSmsDao historiqueSmsDao;
+    protected HistoriqueAppelDao historiqueAppelDao;
 
     protected Utilisateur activeUser;
 
@@ -107,6 +112,7 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
         smsEnlevementDao = daoSession.getSmsEnlevementDao();
         parametresDao = daoSession.getParametresDao();
         historiqueSmsDao = daoSession.getHistoriqueSmsDao();
+        historiqueAppelDao = daoSession.getHistoriqueAppelDao();
       /*  List<Utilisateur> listUserActif = Utilisateur.find(Utilisateur.class, "actif = ?", "1");
         if (listUserActif.size() != 0) {
             activeUser = listUserActif.get(0);
@@ -165,6 +171,23 @@ public class NavDrawerActivity extends AppCompatActivity implements NavigationVi
             case R.id.activity_main_drawer_contacts:
                 //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
                 myProfilActivity = new Intent(NavDrawerActivity.this, AfficherListeContactActivity.class);
+                startActivity(myProfilActivity);
+                break;
+
+            case R.id.activity_main_drawer_dae:
+                Intent i = getPackageManager().getLaunchIntentForPackage("com.mobilehealth.cardiac");
+                if (i != null)
+                {
+                    startActivity(i);
+                } else {
+                    Intent intent = new Intent( Intent.ACTION_VIEW, Uri.parse( "market://details?id=com.mobilehealth.cardiac" ) );
+                    startActivity(intent);
+                }
+                break;
+
+            case R.id.activity_main_drawer_chrono:
+                //Toast.makeText(this, "à implementer", Toast.LENGTH_LONG).show();
+                myProfilActivity = new Intent(NavDrawerActivity.this, ChronoCardiaqueActivity.class);
                 startActivity(myProfilActivity);
                 break;
 

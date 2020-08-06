@@ -32,6 +32,7 @@ import com.pouillos.mysosapp.entities.TempoMorse;
 import com.pouillos.mysosapp.entities.Utilisateur;
 import com.pouillos.mysosapp.utils.DateUtils;
 
+import java.text.Normalizer;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -116,8 +117,39 @@ public class MorseActivity extends NavDrawerActivity {
      //   runnerBD.execute();
     }
 
+    private String verifierCompositionMessage(String message) {
+        String messageCorrige = "";
+       /* messageCorrige = message.replaceAll("À","A");
+        messageCorrige = message.replaceAll("Á","A");
+        messageCorrige = message.replaceAll("Â","A");
+        messageCorrige = message.replaceAll("Ã","A");
+        messageCorrige = message.replaceAll("Ä","A");
+        messageCorrige = message.replaceAll("È","E");
+        messageCorrige = message.replaceAll("É","E");
+        messageCorrige = message.replaceAll("Ê","E");
+        messageCorrige = message.replaceAll("Ë","E");
+        messageCorrige = message.replaceAll("Ì","I");
+        messageCorrige = message.replaceAll("Í","I");
+        messageCorrige = message.replaceAll("Î","I");
+        messageCorrige = message.replaceAll("Ï","I");
+        messageCorrige = message.replaceAll("Ò","O");
+        messageCorrige = message.replaceAll("Ó","O");
+        messageCorrige = message.replaceAll("Ô","O");
+        messageCorrige = message.replaceAll("Ö","O");
+        messageCorrige = message.replaceAll("Ù","U");
+        messageCorrige = message.replaceAll("Ú","U");
+        messageCorrige = message.replaceAll("Û","U");
+        messageCorrige = message.replaceAll("Ü","U");
+        messageCorrige = message.replaceAll("Ç","C");*/
+        messageCorrige = Normalizer.normalize(message, Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
+        return messageCorrige;
+    }
+
     private void envoyerMessageMorse(String message) {
-        String messageMorse = message.toUpperCase();
+        String messageMorse = "{";
+        messageMorse += message.toUpperCase();
+        messageMorse += "}";
+        messageMorse = verifierCompositionMessage(messageMorse);
         int nbCaractere = messageMorse.length();
         String currentCaractere;
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
@@ -132,7 +164,12 @@ public class MorseActivity extends NavDrawerActivity {
                 } else {
                     currentCaractere = messageMorse.substring(i);
                 }
-                messageTraduit += mapLettreMorse.get(currentCaractere);
+                if (mapLettreMorse.get(currentCaractere) != null) {
+                    messageTraduit += mapLettreMorse.get(currentCaractere);
+                } else {
+                    messageTraduit += mapLettreMorse.get(" ");
+                }
+
             }
             int nbCaract = messageTraduit.length();
             for (int i=0;i<nbCaract;i++) {

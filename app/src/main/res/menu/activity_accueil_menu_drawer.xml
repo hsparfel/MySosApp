@@ -38,6 +38,15 @@
                     android:id="@+id/activity_main_drawer_morse"
                     android:icon="@drawable/icons8_morse"
                     android:title="Morse" />
+
+                <item
+                    android:id="@+id/activity_main_drawer_dae"
+                    android:icon="@drawable/icons8_morse"
+                    android:title="Defibrilateur" />
+                <item
+                    android:id="@+id/activity_main_drawer_chrono"
+                    android:icon="@drawable/icons8_morse"
+                    android:title="Massage Chrono" />
                 <!-- <item
                     android:id="@+id/activity_main_drawer_treatments"
                     android:icon="@drawable/medicine_medical_pharmacy_health_prescription_pill_drug_icon_140910"

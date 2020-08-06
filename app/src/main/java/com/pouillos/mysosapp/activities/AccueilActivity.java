@@ -2,6 +2,7 @@ package com.pouillos.mysosapp.activities;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
@@ -10,6 +11,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import com.pouillos.mysosapp.activities.afficher.AfficherUtilisateurEtapeUnActiv
 import com.pouillos.mysosapp.dao.ContactDao;
 import com.pouillos.mysosapp.dao.SmsEnlevementDao;
 import com.pouillos.mysosapp.entities.Contact;
+import com.pouillos.mysosapp.entities.HistoriqueAppel;
 import com.pouillos.mysosapp.entities.LettreMorse;
 import com.pouillos.mysosapp.entities.Parametres;
 import com.pouillos.mysosapp.entities.SmsAccident;
@@ -77,8 +80,8 @@ public class AccueilActivity extends NavDrawerActivity {
     ExtendedFloatingActionButton fabAppelNumeroAeronautique;
     @BindView(R.id.fabAppelNumeroMer)
     ExtendedFloatingActionButton fabAppelNumeroMer;
-    @BindView(R.id.fabAppelNumeroSourd)
-    ExtendedFloatingActionButton fabAppelNumeroSourd;
+  //  @BindView(R.id.fabAppelNumeroSourd)
+  //  ExtendedFloatingActionButton fabAppelNumeroSourd;
 
     @BindView(R.id.fabSmsAccident)
     ExtendedFloatingActionButton fabSmsAccident;
@@ -285,9 +288,70 @@ public class AccueilActivity extends NavDrawerActivity {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
     }*/
+    @OnClick(R.id.fabAppelNumeroEurope)
+    public void setFabAppelNumeroEuropeClick() {
+        passerAppel("Europe");
+    }
+    @OnClick(R.id.fabAppelNumeroPompier)
+    public void setFabAppelNumeroPompierClick() {
+        passerAppel("Pompier");
+    }
+    @OnClick(R.id.fabAppelNumeroPolice)
+    public void setFabAppelNumeroPoliceClick() {
+        passerAppel("Police");
+    }
+    @OnClick(R.id.fabAppelNumeroSamu)
+    public void setFabAppelNumeroSamuClick() {
+        passerAppel("Samu");
+    }
+    @OnClick(R.id.fabAppelNumeroAeronautique)
+    public void setFabAppelNumeroAeronautiqueClick() {
+        passerAppel("Avion");
+    }
+    @OnClick(R.id.fabAppelNumeroMer)
+    public void setFabAppelNumeroMerClick() {
+        passerAppel("Mer");
+    }
 
-
-
+    private void passerAppel(String typeAppel) {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        Parametres parametres = recupererParametres();
+        String numero = "";
+        switch(typeAppel){
+            case "Europe":
+                numero = parametres.getNumeroEurope();
+                break;
+            case "Pompier":
+                numero = parametres.getNumeroPompier();
+                break;
+            case "Police":
+                numero = parametres.getNumeroPolice();
+                break;
+            case "Samu":
+                numero = parametres.getNumeroSamu();
+                break;
+            case "Avion":
+                numero = parametres.getNumeroAeronautique();
+                break;
+            case "Mer":
+                numero = parametres.getNumeroMer();
+                break;
+            default:
+                break;
+        }
+        callIntent.setData(Uri.parse("tel:"+numero));
+        HistoriqueAppel historiqueAppel = new HistoriqueAppel();
+        historiqueAppel.setNumeroTel(numero);
+        historiqueAppel.setTypeAppel(typeAppel);
+        Date date = new Date();
+        historiqueAppel.setDate(date);
+        historiqueAppel.setDateString(DateUtils.ecrireDateHeure(date));
+        historiqueAppel.setLatitude(actualLatitude);
+        historiqueAppel.setLongitude(actualLongitude);
+        historiqueAppel.setAdresseGeo(textAddresseGeo.getText().toString());
+        historiqueAppelDao.insert(historiqueAppel);
+        startActivity(callIntent);
+    }
 
     @OnClick(R.id.fabSmsAccident)
     public void setfabSmsAccidentClick() {
